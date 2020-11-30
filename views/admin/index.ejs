@@ -1,0 +1,110 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    <script src=https://d3js.org/d3.v3.min.js charset="utf-8"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <style>
+        .wrap{
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 1em;
+        }
+        .bar{
+        background-color: navy;
+        width: 2em;
+        height: auto;
+        margin-right: 5px;
+        float: left;
+        position: relative;
+        color: #fff;
+        text-align: center;
+        padding-top: 5px;
+        }
+        button{
+        font-size: 1.5em; float: left;
+        margin-right: 10px;
+        }
+        </style>
+    
+    
+</head>
+
+    <body>        
+         
+        <script>
+      
+        var height = 500, width = 1000;
+        // body 與 容器
+        var body = d3.select('body');
+        var wrap = body.append('div')
+          .style({
+              'height': height + 'px'
+          })
+          .classed('wrap', true);
+        // render, & update
+        var render = function () {
+            wrap.selectAll('.bar')
+            .data(data)
+            .enter()
+            .append('div')
+            .classed('bar', true)
+            .text(function (d) {
+                return d;
+            })
+            .style({
+                'height': function (d) {
+                    return d * 25 + 'px';
+                },
+                'top': function (d) {
+                    return (height - d * 25) + 'px';
+                }
+            });
+        };
+        // remove
+        var remove = function () {
+            wrap.selectAll('.bar')
+            .data(data)
+            .text(function (d) {
+                return d;
+            })
+            .style({
+                'height': function (d) {
+                    return d * 25 + 'px';
+                },
+                'top': function (d) {
+                    return (height - d * 25) + 'px';
+                }
+            })
+            .exit()
+            .remove();
+        };
+        // 繪製原始資料
+        render();
+        // 兩顆按鈕
+        body.append('button')
+          .classed('add', true)
+          .text('add');
+        body.append('button')
+          .classed('remove', true)
+          .text('remove');
+        d3.select('.add').on('click', function () {
+            data.push(Math.floor(Math.random() * 10 + 1));
+            render();
+        });
+        d3.select('.remove').on('click', function () {
+            data.pop();
+            remove();
+        });
+
+  
+  
+    
+       
+
+
+ 
+    
+            
+        
+            </script>
+           
+            <%- include('../includes/end.ejs') %>
