@@ -3,7 +3,9 @@ const Message = require("../models/message");
 require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SG);
-var path = require('path'); 
+var path = require("path");
+
+const { check, validationResult } = require("express-validator");
 
 exports.getMessages = (req, res, next) => {
   Message.getMessages()
@@ -15,9 +17,23 @@ exports.getMessages = (req, res, next) => {
     });
 };
 
+exports.getLastMessages = (req, res, next) => {
+  const amount = req.query.amount;
+  Message.getLastMessages(amount)
+    .then((result) => {
+      return res.status(200).send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.postMessage = (req, res, next) => {
-  const name = req.body.name;
-  const content = req.body.content;
+  const { name, content } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errorMessage: errors.array() });
+  }
   const message = new Message(name, content);
   message
     .save()
@@ -25,6 +41,20 @@ exports.postMessage = (req, res, next) => {
       if (result) {
         console.log(result);
         return res.status(201).send("one message added");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.postMessages = (req, res, next) => {
+  const message = req.body;
+  Message.saveMany(message)
+    .then((result) => {
+      if (result) {
+        console.log(result);
+        return res.status(201).send("many message added");
       }
     })
     .catch((err) => {
@@ -75,11 +105,6 @@ exports.getVotes = (req, res, next) => {
         }
         return a - b;
       });
-      // return res.status(200).render("admin/index", {
-      //   pageTitle: "Vote result",
-      //   data: finalResult
-      // });
-
       return res.status(200).send(finalResultSorted);
     })
     .catch((err) => {
@@ -88,11 +113,11 @@ exports.getVotes = (req, res, next) => {
 };
 
 exports.postVote = (req, res, next) => {
-  const email = req.body.email;
-  const name = req.body.name;
-  const phone = req.body.phone;
-  const code = req.body.code;
-  const votes = req.body.votes;
+  const { email, name, phone, code, votes } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errorMessage: errors.array() });
+  }
   const voted = true;
   const vote = new Vote(email, name, phone, code, votes, voted);
   vote
@@ -112,7 +137,11 @@ exports.postVote = (req, res, next) => {
 };
 
 exports.postCode = (req, res, next) => {
-  const email = req.body.email;
+  const { email } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errorMessage: errors.array() });
+  }
   const vote = new Vote(email);
   vote
     .save()
