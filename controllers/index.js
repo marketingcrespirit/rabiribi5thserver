@@ -153,7 +153,16 @@ exports.postCode = (req, res, next) => {
           from: "jim@crespirit.com", // Change to your verified sender
           subject: "Rabi-Ribi五週年徵稿活動投票認證信",
           text: "Rabi-Ribi五週年徵稿活動投票認證",
-          html: `<strong>您好：</strong><p>您的認證碼為： ${vote.code}</p>`,
+          html: `<p>親愛的UPRPRC會員們，感謝你們的熱烈參與！</p>
+          <p>在此提醒我們投票時間為：台灣時間 2021年 1/4（一）~1/11（一）。</p>
+          <p>抽獎名單公布時間為：台灣時間 2021年 1/18（一）。</p>
+          <p>收到驗證碼後，請再幫我們回到投票網頁，填寫個人資料與驗證碼，才算完成整個投票流程唷！</p>
+          <p>您的認證碼為： ${vote.code}</p>
+          <p>在此預祝您幸運中獎！</p>
+          <br/>
+          <br/>
+          <p>酷思特文創股份有限公司</p>`
+          
         };
         return sgMail.send(msg);
       } else {
