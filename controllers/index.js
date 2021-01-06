@@ -113,13 +113,13 @@ exports.getVotes = (req, res, next) => {
 };
 
 exports.postVote = (req, res, next) => {
-  const { email, name, phone, code, votes } = req.body;
+  const { email, name, code, votes } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).send({ errorMessage: errors.array() });
   }
   const voted = true;
-  const vote = new Vote(email, name, phone, code, votes, voted);
+  const vote = new Vote(email, name, code, votes, voted);
   vote
     .vote()
     .then((result) => {
@@ -178,8 +178,7 @@ exports.postCode = (req, res, next) => {
           <br/>
           <p>CreSpirit</p>
 
-          `
-
+          `,
         };
         return sgMail.send(msg);
       } else {

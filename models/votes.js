@@ -10,10 +10,9 @@ const randomCode = () => {
 };
 
 class Votes {
-  constructor(email, name, phone, code, votes, activated, voted) {
+  constructor(email, name, code, votes, activated, voted) {
     this.email = email;
     this.name = name;
-    this.phone = phone;
     this.code = code;
     this.votes = votes;
     this.activated = false;
