@@ -150,19 +150,36 @@ exports.postCode = (req, res, next) => {
         res.status(201).send("one email added");
         const msg = {
           to: email, // Change to your recipient
-          from: "jim@crespirit.com", // Change to your verified sender
-          subject: "Rabi-Ribi五週年徵稿活動投票認證信",
-          text: "Rabi-Ribi五週年徵稿活動投票認證",
+          from: "rabiribi5th@crespirit.com", // Change to your verified sender
+          subject: "Rabi-Ribi 5th徵稿活動投票認證信 | Verification code",
+          text: "Rabi-Ribi 5th徵稿活動投票認證信 | Verification code",
           html: `<p>親愛的UPRPRC會員們，感謝你們的熱烈參與！</p>
-          <p>在此提醒我們投票時間為：台灣時間 2021年 1/4（一）~1/11（一）。</p>
+          <br/>
+          <p>在此提醒我們投票時間為：台灣時間 2021年 1/6（三）~1/13（三）。</p>
           <p>抽獎名單公布時間為：台灣時間 2021年 1/18（一）。</p>
           <p>收到驗證碼後，請再幫我們回到投票網頁，填寫個人資料與驗證碼，才算完成整個投票流程唷！</p>
           <p>您的認證碼為： ${vote.code}</p>
           <p>在此預祝您幸運中獎！</p>
           <br/>
           <br/>
-          <p>酷思特文創股份有限公司</p>`
-          
+          <p>酷思特文創股份有限公司</p>
+          <br/>
+          <br/>
+          <br/>
+          <p>Dear UPRPRC members,</p>
+          <br/>
+          <p>Thanks for join us for Rabi-Ribi 5th Anniversary Celebration!</p>
+          <p>This letter is reminding you that the voting time is start from Jan. 6, 2021 . to Jan. 13, 2021 11:59 p.m. (GMT+8)</p>
+          <p>Once completed the vote, each voter can earn a change for giveaway prize.</p>
+          <br/>
+          <p>To complete voting, here is your verification code: ${vote.code}</p>
+          <p>Thanks again for your joining and wish you have good luck!</p>
+          <br/>
+          <br/>
+          <p>CreSpirit</p>
+
+          `
+
         };
         return sgMail.send(msg);
       } else {
