@@ -30,10 +30,6 @@ exports.getLastMessages = (req, res, next) => {
 
 exports.postMessage = (req, res, next) => {
   const { name, content } = req.body;
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).send({ errorMessage: errors.array() });
-  }
   const message = new Message(name, content);
   message
     .save()
