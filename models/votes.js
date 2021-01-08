@@ -41,7 +41,7 @@ class Votes {
       .collection("votes")
       .findOne({ email: this.email })
       .then((res) => {
-          console.log(res)
+        console.log(res);
         if (res && !res.voted && this.code === res.code) {
           this.voted = true;
           this.activated = true;
@@ -59,7 +59,16 @@ class Votes {
       .find()
       .toArray();
   }
-
+  static getVotesAmount() {
+    const db = getDb();
+    return db
+      .collection("votes")
+      .countDocuments({})
+  }
+  deleteVote() {
+    const db = getDb();
+    return db.collection("votes").findOneAndDelete({ email: this.email });
+  }
 }
 
 module.exports = Votes;

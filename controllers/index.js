@@ -77,6 +77,16 @@ const arrangeVotes = (votes) => {
   return voteBoard;
 };
 
+exports.getVotesAmount = (req, res, next) => {
+  Vote.getVotesAmount()
+    .then((result) => {
+      return res.sendStatus(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.getVotes = (req, res, next) => {
   Vote.getVotes()
     .then((result) => {
@@ -179,6 +189,20 @@ exports.postCode = (req, res, next) => {
         return sgMail.send(msg);
       } else {
         res.status(204).send("already exist");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.deleteEmail = (req, res, next) => {
+  const { email } = req.body;
+  Message.deleteMessage(email)
+    .then((result) => {
+      if (result) {
+        console.log(result);
+        return res.status(201).send("one message deleted");
       }
     })
     .catch((err) => {
